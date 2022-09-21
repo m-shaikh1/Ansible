@@ -1,0 +1,13 @@
+- name: Install All apps server
+  apt:
+    name: "{{ apps }}"
+    state: present
+    update_cache: yes
+  become: true
+- name: Upload loadbalancer file
+  copy:
+    src: loadbalancer.conf
+    dest: /etc/apache2/sites-available/000-default.conf
+    mode: 0755
+  become: true
+  notify: Restart apache server

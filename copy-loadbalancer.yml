@@ -1,0 +1,16 @@
+- name: Copy loadbalancer.conf file and move to the loadbalancer
+  hosts: loadbalancer
+  tasks:
+    - name: Upload loadbalancer file
+      copy:
+        src: ./config/loadbalancer.conf
+        dest: /etc/apache2/sites-available/000-default.conf
+        mode: 0755
+      become: true
+      notify: Restart apache server
+
+  handlers: 
+    - name: Restart apache server
+      service: 
+        name: apache2
+        state: restarted

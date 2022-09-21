@@ -1,0 +1,11 @@
+- name: Setup and run webserver with loadbalancer
+  hosts: loadbalancer
+  roles: 
+   - ../roles/loadbalancer
+  become: true
+
+- name: Setup and run webserver 
+  hosts: webserver
+  roles: 
+   - ../roles/webserver
+  become: true

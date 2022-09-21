@@ -1,0 +1,13 @@
+- name: Install All apps server
+  apt:
+    name: "{{ apps }}"
+    state: present
+    update_cache: yes
+  become: true
+
+- name: Upload index.php file
+  copy:
+    src: index.php
+    dest: /var/www/html
+    mode: 0755
+  become: true

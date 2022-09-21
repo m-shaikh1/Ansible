@@ -1,0 +1,56 @@
+- name: Install Apache on Web servers
+  hosts: 
+    - AmzLinuxservers
+    - Ubuntuservers
+  vars:
+    app:
+      app1: apache2
+      app2: httpd
+  tasks:
+    - name: Install Apache on ubuntu server
+      when: inventory_hostname in groups['Ubuntuservers']
+      apt:
+        name: "{{ app['app1'] }}"
+        state: present
+        update_cache: yes
+      become: true
+
+    - name: Start apache on ubuntu server
+      when: inventory_hostname in groups['Ubuntuservers']
+      service: 
+        name: "{{ app['app1'] }}"
+        state: started
+        enabled: yes
+      become: true
+
+    - name: Copy index.html file and move to the ubuntu server
+      when: inventory_hostname in groups['Ubuntuservers']
+      copy:
+        src: ./index.html
+        dest: /var/www/html
+        mode: 0755
+      become: true
+
+    - name: Install Apache on amazon server
+      when: inventory_hostname in groups['AmzLinuxservers']
+      yum:
+        name: "{{ app['app2'] }}"
+        state: present
+        update_cache: yes
+      become: true
+
+    - name: Starting apache on amazon server
+      when: inventory_hostname in groups['AmzLinuxservers']
+      service: 
+        name: "{{ app['app2'] }}"
+        state: started
+        enabled: yes
+      become: true
+
+    - name: Copy index.html file and move to the amazon server
+      when: inventory_hostname in groups['AmzLinuxservers']
+      copy:
+        src: ./index.html
+        dest: /var/www/html
+        mode: 0755
+      become: true

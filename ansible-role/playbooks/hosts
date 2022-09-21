@@ -1,0 +1,5 @@
+[loadbalancer]
+lb1 ansible_host=44.203.148.156 ansible_connection=ssh
+
+[webserver]
+web1 ansible_host=18.208.177.53 ansible_connection=ssh 

@@ -1,0 +1,8 @@
+- name: Uninstall Apache on Web Server
+  hosts: web1
+  tasks: 
+  - name: unInstall Apache servers 
+    apt:
+      name: apache2
+      state: absent
+    become: true
